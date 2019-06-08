@@ -5,26 +5,27 @@
 
 
 let Grid = function(gridBorders, tilesMap){
-    this.sides = sides;
-    this.angles = angles;
+    
     this.gridBorders = gridBorders;
     this.tilesMap = tilesMap;
     this.gridBordersStartX = 0;
     this.gridBordersStartY = 0;
-    this.colorMap;
+    this.colorMap = [];
     this.color = 0;
 
-    for (let y = 0; y < tilesMap.lenght; y++){
-        for (let x = 0; x < tilesMap[0].lenght; x++){
-
-            this.colorMap[y][x] = [0]; // 0 means empty
-        }
-    }
     
+    
+    for(let i = 0; i < tilesMap.length; i++) {  // creates 2d array
+        this.colorMap.push(new Array(tilesMap[0].length));
+    }
+
+    
+
+
     loop2:
-    for (let y = 0; y < tilesMap.lenght; y++){
-        for (let x = 0; x < tilesMap[0].lenght; x++){
-            if (tilesMap[y][x]){
+    for (let y = 0; y < tilesMap.length; y++){
+        for (let x = 0; x < tilesMap[0].length; x++){
+            if (!(tilesMap[y][x])){
                 this.gridBordersStartX = x;
                 this.gridBordersStartY = y;
                 break loop2;
@@ -48,7 +49,7 @@ let Grid = function(gridBorders, tilesMap){
     this.checkAnglesSum=function(blocks){
 
         let anglesSum = 0;
-        for(let i = 1; i < this.gridBorders.lenght;i+=2){
+        for(let i = 1; i < this.gridBorders.length;i+=2){
             if(this.gridBorders[i] == 90){
                 anglesSum++;
             }
@@ -58,8 +59,8 @@ let Grid = function(gridBorders, tilesMap){
             
         }
 
-        for(let i = 0; i < this.blocks.lenght;i++){
-            for(let j = 1; j < blocks[i].lenght;j += 2){
+        for(let i = 0; i < this.blocks.length;i++){
+            for(let j = 1; j < blocks[i].length;j += 2){
 
                 if(this.blocks[i][j] == 90){
                     anglesSum++;
@@ -77,25 +78,7 @@ let Grid = function(gridBorders, tilesMap){
 
     }
 
-    this.selectBlock=function(blocks){
-        
-        let BlocklengthSum = 0;
-        let BlocklengthSumIndex = 0;
-        for(let i = 0; i < blocks.length; i++){
-            let xlenghtSum = 0;
-            for(let j = 0; j < blocks[j].length; j+=2){
-            
-                xlenghtSum += blocks[i].borders[j];
-            }
-            if(xlenghtSum > BlocklengthSum){
-                BlocklengthSum = xlenghtSum;
-                BlocklengthSumIndex = i;
-            }           
-            //blocks[i].borders.length
-        }
-        return i;
-
-    }
+    
 
     
 
@@ -136,9 +119,9 @@ let Grid = function(gridBorders, tilesMap){
         let rememberJ = 1;
         let rememberPosun = 0;
         //select point of block
-        for(let i = 1; i < block.borders.length; i+=2){
+        for(let i = 1; i < block.length; i+=2){
             
-            if(block.borders[i] == 90){  // calculate fitness only for corners of a block
+            if(block[i] == 90){  // calculate fitness only for corners of a block
 
                 //select point of grid
                 nextPlaceInGrid:
@@ -149,7 +132,7 @@ let Grid = function(gridBorders, tilesMap){
                       
                         for(let posun = 1; posun < this.gridBorders.length; posun++){
 
-                            if(block.borders[i+posun] == this.xgridBorders[j+posun]){ // does it continue fitting?
+                            if(block[i+posun] == this.xgridBorders[j+posun]){ // does it continue fitting?
                                 fitness++;
                             
                             }else{    
@@ -177,21 +160,21 @@ let Grid = function(gridBorders, tilesMap){
                                         if(switchSideAngle){  //sides
                                             
                                             if (direction%4 == 0){
-                                                startX += this.borders[k];   //left
+                                                startX += this.gridBorders[k];   //left
                                             }else if (direction%4 == 1){  
-                                                startY += this.borders[k]; //donw
+                                                startY += this.gridBorders[k]; //donw
                                             }else if (direction%4 == 2){  
-                                                startX -= this.borders[k]; //right
+                                                startX -= this.gridBorders[k]; //right
                                             }else{
-                                                startY -= this.borders[k]; //up
+                                                startY -= this.gridBorders[k]; //up
                                             }
                                             switchSideAngle = false;
                             
                                         }else{  // angles
                             
-                                            if(this.borders[k] == 90){
+                                            if(this.gridBorders[k] == 90){
                                                 direction++;
-                                            }else if(this.borders[k] == 270){
+                                            }else if(this.gridBorders[k] == 270){
                                                 direction--;
                                             }
                             
@@ -203,42 +186,42 @@ let Grid = function(gridBorders, tilesMap){
 
                                     switchSideAngle = true;
                                     let x = 0;
-                                    for (let k = i+posun; x < block.lenght; k++){  // optimalization: x< block.lenght - posun
+                                    for (let k = i+posun; x < block.length; k++){  // optimalization: x< block.length - posun
                                         x++;
-                                        if (k == block.lenght){
+                                        if (k == block.length){
                                             k = 0;
                                         }
                             
                                         if(switchSideAngle){  //sides
                                             
                                             if (direction%4 == 0){
-                                                for(let l = 0; l < this.borders[k]; l++){
+                                                for(let l = 0; l < this.gridBorders[k]; l++){
                             
                                                 
                                                     startX += 1;
-                                                    if((!(this.tilesMap[startX][startY])) || (!(this.tilesMap[startX][startY-1])) || (!(this.tilesMap[startX+1][startY-1]))){
+                                                    if((this.tilesMap[startX][startY]) || (this.tilesMap[startX][startY-1]) || (this.tilesMap[startX+1][startY-1])){  // zero = false = the space is empty
                                                         continue nextPlaceInGrid;
                                                     }
                                                 }
                                             }else if (direction%4 == 1){
-                                                for(let l = 0; l < this.borders[k]; l++){
+                                                for(let l = 0; l < this.gridBorders[k]; l++){
                                                 
                                                     startY += 1;
-                                                    if((!(this.tilesMap[startX][startY])) || (!(this.tilesMap[startX+1][startY])) || (!(this.tilesMap[startX+1][startY+1]))){
+                                                    if((this.tilesMap[startX][startY]) || (this.tilesMap[startX+1][startY]) || (this.tilesMap[startX+1][startY+1])){
                                                         continue nextPlaceInGrid;
                                                     }
                                                 }
                                             }else if (direction%4 == 2){
-                                                for(let l = 0; l < this.borders[k]; l++){
+                                                for(let l = 0; l < this.gridBorders[k]; l++){
                                                     startX -= 1;
-                                                    if((!(this.tilesMap[startX][startY])) || (!(this.tilesMap[startX][startY+1])) || (!(this.tilesMap[startX-1][startY+1]))){
+                                                    if((this.tilesMap[startX][startY]) || (this.tilesMap[startX][startY+1]) || (this.tilesMap[startX-1][startY+1])){
                                                         continue nextPlaceInGrid;
                                                     }
                                                 }
                                             }else{
-                                                for(let l = 0; l < this.borders[k]; l++){
+                                                for(let l = 0; l < this.gridBorders[k]; l++){
                                                     startY -= 1;
-                                                    if((!(this.tilesMap[startX][startY])) || (!(this.tilesMap[startX-1][startY])) || (!(this.tilesMap[startX-1][startY-1]))){
+                                                    if((this.tilesMap[startX][startY]) || (this.tilesMap[startX-1][startY]) || (this.tilesMap[startX-1][startY-1])){
                                                         continue nextPlaceInGrid;
                                                     }
 
@@ -251,9 +234,9 @@ let Grid = function(gridBorders, tilesMap){
                             
                                         }else{  // angles
                             
-                                            if(this.borders[k] == 90){
+                                            if(this.gridBorders[k] == 90){
                                                 direction++;
-                                            }else if(this.borders[k] == 270){
+                                            }else if(this.gridBorders[k] == 270){
                                                 direction--;
                                             }
                             
@@ -292,21 +275,21 @@ let Grid = function(gridBorders, tilesMap){
             if(switchSideAngle){  //sides
                 
                 if (direction%4 == 0){
-                    startX += this.borders[k];
+                    startX += this.gridBorders[k];
                 }else if (direction%4 == 1){
-                    startY += this.borders[k];
+                    startY += this.gridBorders[k];
                 }else if (direction%4 == 2){
-                    startX -= this.borders[k];
+                    startX -= this.gridBorders[k];
                 }else{
-                    startY -= this.borders[k];
+                    startY -= this.gridBorders[k];
                 }
                 switchSideAngle = false;
 
             }else{  // angles
 
-                if(this.borders[k] == 90){
+                if(this.gridBorders[k] == 90){
                     direction++;
-                }else if(this.borders[k] == 270){
+                }else if(this.gridBorders[k] == 270){
                     direction--;
                 }
 
@@ -318,20 +301,20 @@ let Grid = function(gridBorders, tilesMap){
         
         switchSideAngle = true;
         let x = 0;
-        for (let k = rememberI+rememberPosun; x < block.lenght; k++){
+        for (let k = rememberI+rememberPosun; x < block.length; k++){
             x++;
-            if (k == block.lenght){
+            if (k == block.length){
                 k = 0;
             }
 
             if(switchSideAngle){  //sides
                 
                 if (direction%4 == 0){
-                    for(let l = 0; l < this.borders[k]; l++){
+                    for(let l = 0; l < this.gridBorders[k]; l++){
 
                     
                         startX += 1;
-                        this.tilesMap[startX][startY] = false;
+                        this.tilesMap[startX][startY] = color;
                         this.colorMap[startX][startY] = color;
                         
                     }
@@ -339,19 +322,19 @@ let Grid = function(gridBorders, tilesMap){
                     for(let l = 0; l < this.borders[k]; l++){
                     
                         startY += 1;
-                        this.tilesMap[startX][startY] = false;
+                        this.tilesMap[startX][startY] = color;
                         this.colorMap[startX][startY] = color;
                     }
                 }else if (direction%4 == 2){
                     for(let l = 0; l < this.borders[k]; l++){
                         startX -= 1;
-                        this.tilesMap[startX][startY] = false;
+                        this.tilesMap[startX][startY] = color;
                         this.colorMap[startX][startY] = color;
                     }
                 }else{
                     for(let l = 0; l < this.borders[k]; l++){
                         startY -= 1;
-                        this.tilesMap[startX][startY] = false;
+                        this.tilesMap[startX][startY] = color;
                         this.colorMap[startX][startY] = color;
 
                     }
@@ -377,9 +360,9 @@ let Grid = function(gridBorders, tilesMap){
         //FILL BLOCK OUTLINE WITH TRUE: !! not necessary !!
         let dontFill = true;
         
-        for(let y = 0; y < this.tilesMap.lenght;y++){
+        for(let y = 0; y < this.tilesMap.length;y++){
             
-            for(let x = 0; x < this.tilesMap[0].lenght;x++){
+            for(let x = 0; x < this.tilesMap[0].length;x++){
 
                 if(!(this.tilesMap[y][x])){
                     
@@ -394,20 +377,15 @@ let Grid = function(gridBorders, tilesMap){
 
 
         //UPDATE BORDERS:
-        let tilesMapG = 
-        [
-            [true,true,true],
-            [true,true,true],
-            [true,true,true],
-            [true,true,true],
-            [true,true,false]
-        ]
+
+                                                                                 ///////////////////////////////////////////////
+      
         let tilesMapGConvert = [];
-        for(let y = 0; y < tilesMapG.length ;y++){
+        for(let y = 0; y < this.tilesMap.length ;y++){
 
-            for(let x = 0; x < tilesMapG[0].length;x++){
+            for(let x = 0; x < this.tilesMap[0].length;x++){
 
-                if(tilesMapG[y][x]){
+                if( !(this.tilesMap[y][x])){
                     tilesMapGConvert.push([[x,y],[x+1,y],[x,y+1],[x+1,y+1]]);
                 }
             
@@ -600,8 +578,9 @@ let Grid = function(gridBorders, tilesMap){
             return degresformat;
 
         }
+                                                                                                ///////////////////////////////////////////////
         this.borders = this._conversionToDegrees(tilesMapGConvert);
-        console.log(this._conversionToDegrees(tilesMapGConvert));
+        console.log(this.borders);
 
 
         
@@ -612,11 +591,11 @@ let Grid = function(gridBorders, tilesMap){
 
     this.createFullColorMap = function(colorMap){
         let fullColorMap = [[]];
-        for(let y = 0; y < this.colorMap.lenght;y++)
+        for(let y = 0; y < this.colorMap.length;y++)
         {
-            for(let x = 0; x < this.colorMap[0].lenght-1;x++)
+            for(let x = 0; x < this.colorMap[0].length-1;x++)
             {
-                for(let i = 0; i < this.colorMap[x].lenght-1;i++)
+                for(let i = 0; i < this.colorMap[x].length-1;i++)
                 {
                     if(colorMap[y][x][i] != 0){
                         if((colorMap[y][x][i] in colorMap[y+1][x]) && (colorMap[y][x][i] in colorMap[y][x+1]) &&(colorMap[y][x][i] in colorMap[y+1][x]+1)){
@@ -654,24 +633,57 @@ blocks.push(block(tiles));*/
 //tiles = [[4,2] , [4,1] , [3,1], [3, 2][2,2] , [2,1] , [1,1], [1, 2]];
 document.write("hej");
 
-function indexOfMax(blockSides) {
-    
-}
-function blockSidesayToString  (tiles){
-   
-    for(let i = 0; i < tiles.length; i++){
-       
-        document.write(tiles[i][0]+ ";"+ tiles[i][1]+ "  ");
+sortBlocks=function(blocks){
         
+    let BlocklengthSum = 0;
+    let BlocklengthSumIndex = 0;
+    let blo = [];
+    for(let i = 0; i< blocks.length;i++){
+        blo.push(0);
+       
     }
-    
+   
+    for(let k = 0; k < blocks.length; k++){
+        let small = 0;
+        for(let i = 0; i < blocks.length; i++){
+           
+            let BlocklengthSum = 0;
+            for(let j = 0; j < blocks[i].length; j+=2){
+            
+                BlocklengthSum += blocks[i][j];
+            }
+            let xBlocklengthSum = 0;
+            for(let j = 0; j < blocks[k].length; j+=2){
+            
+                xBlocklengthSum += blocks[k][j];
+            }
+            if(BlocklengthSum > xBlocklengthSum){
+                small++;
+            }           
+            //blocks[i].borders.length
+        }
+      
+        blo[k] = small;
+    }
+    console.log(blo);
+    sortedBlocks = [];
+    for(let i = 0; i< blocks.length;i++){
+        sortedBlocks.push([]);
+       
+    }
+    for(let i = 0; i< blo.length;i++){
+        sortedBlocks[blo[i]] = blocks[i];
+       
+    }
+    return sortedBlocks;
 }
+
 let gridBroders = [3,90,2,90,3,90,2,90];
 let tilesMapG = [
-    [false,false,false,false,false],
-    [false,true,true,true,false],
-    [false,true,true,true,false],
-    [false,false,false,false,false],
+    [-1,-1,-1,-1,-1],
+    [-1,0,0,0,-1],
+    [-1,0,0,0,-1],
+    [-1,-1,-1,-1,-1],
     
 
 ]
@@ -685,13 +697,25 @@ let block2Borders = [1,90,1,270,2,90,1,90,3,90,2,90];
 
 blocks.push(block1Borders);
 blocks.push(block2Borders);
+//blocks.push(block3Borders);
+
+sortedBlocks = sortBlocks(blocks);
+console.log(sortedBlocks);
+//console.log(blocks);
+console.log("delka", blocks.length);
+document.write(!(0));
+
+
+
+
+//program:
 
 for(let i = 0; i < blocks.length;i++){
-
-    grid.placeBlock(blocks[grid.selectBlock()]);
+    console.log("nejdelsi",grid.selectBlock(blocks));
+    grid.placeBlock(blocks[grid.selectBlock(blocks)]);
 }
-
-console.log(this.createFullColorMap(grid.colorMap));
+//
+//console.log(this.createFullColorMap(grid.colorMap));
 
 
 
