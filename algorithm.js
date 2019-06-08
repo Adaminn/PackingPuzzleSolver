@@ -34,6 +34,10 @@ let Grid = function(gridBorders, tilesMap){
     
     }
 
+    this.checkAnglesSum=function(){
+
+    }
+
     this.selectBlock=function(){
         
         let BlocklengthSum = 0;
@@ -50,6 +54,7 @@ let Grid = function(gridBorders, tilesMap){
             }           
             //blocks[i].borders.length
         }
+        return i;
 
     }
     this.doesItFit=function(block, blockStart, blockEnd, gridStart, gridEnd){
@@ -140,7 +145,7 @@ let Grid = function(gridBorders, tilesMap){
 
     }
 
-    this.fitIt=function(block, blockStart, blockEnd, gridStart, gridEnd){
+    this.fitIt=function(block, blockStart, blockEnd, gridStart, gridEnd){  //return 0 if good place wasnt found
 
  
         let direction = 0;
@@ -298,11 +303,8 @@ let Grid = function(gridBorders, tilesMap){
                                     let switchSideAngle = true
                                     
 
-                                    // DOES IT SPLIT GRID INTO TWO GRIDS? (if yes, its bad)
 
-                                    
-
-                                    // DOES IT FIT IN? thats what she s
+                                    // DOES IT FIT IN?
 
                                     //checking where we are (by coordinates) in 2d bool array
                                     for(let k = 1; k < j+posun; k++){
