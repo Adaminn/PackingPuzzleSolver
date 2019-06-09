@@ -126,17 +126,26 @@ let Grid = function(gridBorders, tilesMap){
         let blockPlaced = false;
         let fullyFits= false;
         let a = 0;
+        let usedI = [];
+        let usedJ = [];
         //select point of block
         for(let i = 1; i < block.length; i+=2){
-            
+            if(this.isInArray(usedJ,j)){
+                continue;
+            }
             if(block[i] == 90){  // calculate fitness only for corners of a block
 
                 //select point of grid
+                a=0;
                 nextPlaceInGrid:
                 for(let j = 1; a < this.gridBorders.length; j+=2){  // from start of 2nd part to end of 2nd part of the extended array 
                     a++;
+                    
                     if(j > this.gridBorders){
                         j = 1;
+                    }
+                    if(this.isInArray(usedJ,j)){
+                        continue;
                     }
                     if(this.xgridBorders[j] == 90){ // calculate fitness only for corners of a grid
                         fitness++;
@@ -207,7 +216,7 @@ let Grid = function(gridBorders, tilesMap){
                                             
                                                 startX += 1;
                                                 if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) && stoppedTouching ){  // if space is occupied...  
-                                                    a = 0;   
+                                                    usedJ.push(j);   
                                                     continue nextPlaceInGrid;
                                                 }else if(this.isInArray(this.tilesMap[StartY][StartX],0)){
                                                     stoppedTouching = true;
@@ -219,7 +228,7 @@ let Grid = function(gridBorders, tilesMap){
                                             
                                                 startY += 1;
                                                 if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) && stoppedTouching ){  
-                                                    a = 0; 
+                                                    usedJ.push(j); 
                                                     continue nextPlaceInGrid;
                                                 }else{
                                                     stoppedTouching = true;
@@ -230,7 +239,7 @@ let Grid = function(gridBorders, tilesMap){
 
                                                 startX -= 1;
                                                 if( !(this.isInArray(this.tilesMap[StartY][StartX],0))&& stoppedTouching  ){  
-                                                    a = 0; 
+                                                    usedJ.push(j); 
                                                     continue nextPlaceInGrid;;
                                                 }else{
                                                     stoppedTouching = true;
@@ -241,7 +250,7 @@ let Grid = function(gridBorders, tilesMap){
 
                                                 startY -= 1;
                                                 if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) && stoppedTouching ){  
-                                                    a = 0; 
+                                                    usedJ.push(j); 
                                                     continue nextPlaceInGrid;
                                                 }else{
                                                     stoppedTouching = true;
@@ -267,7 +276,7 @@ let Grid = function(gridBorders, tilesMap){
                                                 
                                                     startX += 1;
                                                     if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) ){  // zero = false = the space is empty
-                                                        a = 0; 
+                                                        usedJ.push(j); 
                                                         continue nextPlaceInGrid;
                                                     }
                                                 }
@@ -276,7 +285,7 @@ let Grid = function(gridBorders, tilesMap){
                                                 
                                                     startY += 1;
                                                     if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) ){  
-                                                        a = 0; 
+                                                        usedJ.push(j); 
                                                         continue nextPlaceInGrid;
                                                     }
                                                 }
@@ -285,7 +294,7 @@ let Grid = function(gridBorders, tilesMap){
 
                                                     startX -= 1;
                                                     if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) ){  
-                                                        a = 0; 
+                                                        usedJ.push(j); 
                                                         continue nextPlaceInGrid;
                                                     }
                                                 }
@@ -294,7 +303,7 @@ let Grid = function(gridBorders, tilesMap){
 
                                                     startY -= 1;
                                                     if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) ){  
-                                                        a = 0; 
+                                                        usedJ.push(j); 
                                                         continue nextPlaceInGrid;
                                                     }
 
@@ -341,7 +350,7 @@ let Grid = function(gridBorders, tilesMap){
                                                 if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) && stoppedTouching ){  // if space is occupied...     
                                                     stoppedTouching = false;
                                                 }else if(stoppedTouching == false){
-                                                    a = 0; 
+                                                    usedJ.push(j); 
                                                     continue nextPlaceInGrid;
                                                 }
                                                                                                 
@@ -353,7 +362,7 @@ let Grid = function(gridBorders, tilesMap){
                                                 if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) && stoppedTouching ){  
                                                     stoppedTouching = false;
                                                 }else if(stoppedTouching == false){
-                                                    a = 0; 
+                                                    usedJ.push(j); 
                                                     continue nextPlaceInGrid;
                                                 }
                                             }
@@ -364,7 +373,7 @@ let Grid = function(gridBorders, tilesMap){
                                                 if( !(this.isInArray(this.tilesMap[StartY][StartX],0))&& stoppedTouching  ){  
                                                     stoppedTouching = false;
                                                 }else if(stoppedTouching == false){
-                                                    a = 0; 
+                                                    usedJ.push(j); 
                                                     continue nextPlaceInGrid;
                                                 }
                                             }
@@ -375,7 +384,7 @@ let Grid = function(gridBorders, tilesMap){
                                                 if( !(this.isInArray(this.tilesMap[StartY][StartX],0)) && stoppedTouching ){  
                                                     stoppedTouching = false;
                                                 }else if(stoppedTouching == false){
-                                                    a = 0; 
+                                                    usedJ.push(j); 
                                                     continue nextPlaceInGrid;
                                                 }
 
@@ -398,11 +407,11 @@ let Grid = function(gridBorders, tilesMap){
                                     rememberJ = j;
                                     rememberPosun = posun;
                                     blockPlaced = true;
-                                    a = 0; 
+                                    usedJ.push(j); 
                                     continue nextPlaceInGrid;
                                 }
                                  // didnt fit that much
-                                 a = 0; 
+                                 usedJ.push(j); 
                                 continue nextPlaceInGrid;
                             
                             }else {
@@ -418,15 +427,18 @@ let Grid = function(gridBorders, tilesMap){
                     }
                 
                 }
+                usedI.push(i);
             }
             
         }
 
-        //PLACE BLOCK:
-
-        this.updateStartXY();
+        
 
         if(blockPlaced){
+
+            //PLACE BLOCK:
+
+            
             let direction = 64; // 0  // left
             let startX = this.gridBordersStartX;
             let startY = 0;
@@ -762,6 +774,7 @@ let Grid = function(gridBorders, tilesMap){
                                                                                                     ///////////////////////////////////////////////
             this.borders = this._conversionToDegrees(tilesMapGConvert);
             console.log(this.borders);
+            this.updateStartXY();
             return true;
     }else{
         return false;
@@ -925,8 +938,8 @@ while(depth != -1){
     pick = smallestNmb(placedBlocks, howMuchSmaller[depth]);
     console.log("pick: " + pick);
     if(!(grid.placeBlock(sortedBlocks[pick], depth))){ // if there isnt place for that block
-        if(smallestNmb(howMuchSmaller[depth] + 1)==-1){ // f, go back
-            for(let c = depth; c < howMuchSmaller.depth;c++){
+        if(smallestNmb(howMuchSmaller[depth] + 1)==-1){ // f, go back   //if we already try place last block in different order
+            for(let c = depth; c < howMuchSmaller.depth;c++){ // set every following to 0
                 howMuchSmaller[c] = 0;
             }
             depth--;
@@ -934,7 +947,7 @@ while(depth != -1){
         }else{
             howMuchSmaller[depth]++;
         }
-    }else{
+    }else{ // block sucessfullt placed
         placedBlocks.push(pick);
         depth++
       
