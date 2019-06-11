@@ -9,8 +9,8 @@ tabulka funguje dobre ale je treba ji predelat aby byla vzdy hezka
 
   }
  .tableInput , table{
-     width: 250px;
-     height: 250px;
+     width: 500px;
+     height: 500px;
  }
 
   body{
@@ -42,7 +42,11 @@ tabulka funguje dobre ale je treba ji predelat aby byla vzdy hezka
   background-color: #fcfcff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
 }
-
+button.POSKLADAT{
+  height: 25px;
+  width: 100px
+  
+}
 h1{
   text-align: center;
   padding:  50px;
@@ -52,5 +56,5 @@ h1{
   margin-left: 230px;
 }
 .tabulka {
- margin-left: 310px; 
+ margin-left: 210px; 
 }

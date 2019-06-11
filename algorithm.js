@@ -10,8 +10,8 @@ let gridEdgeDegreeEdge;
 let blocks = [];
 //input
 let my_table;
- let x = 3;
- let y = 3;
+ let x = 6;
+ let y = 8;
  dinamic_table();
 
 viewOfgrid = document.getElementById("viewOfgrid");
