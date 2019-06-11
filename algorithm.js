@@ -62,7 +62,7 @@ addGrid.onclick = function(){
     
 
     dinamic_table()
-    insertTable(shap.blocksF, viewOfgrid,1) //graficke zobrazeni blocku
+    insertTable(shap.blocksF, viewOfgrid,1) //graficke zobrazeni blocku nefuncni
     console.log("is shap undefined? " , shap.blocksF )
 
 };
@@ -99,7 +99,7 @@ insertTable = function(blocks,element,number){
       serves as input for our puzzle solver.
       */
      let my_table =Element;
-     let row = Element;
+     let myRow = Element;
      let tableTd = Element;
      let tableTr =Element;
     
@@ -147,6 +147,40 @@ insertTable = function(blocks,element,number){
       console.log("minY " , minY , " maxY", maxY);
      // blocks.sort(0) 
       let stringREsult = "";
+      
+       
+        console.log("string results")
+        //it is not working
+          for (let iy = minY-2 ; iy< maxY ;iy++ ){
+            myRow = my_table.insertRow(0);
+            console.log(stringREsult)
+            stringREsult="";
+
+            
+            for(let ix = minX-2; ix < maxX  ; ix++){
+
+              try {
+                //proc jsou sakra veschny blocku defined
+                 console.log("undefined?" + blocks[iy][ix][enumCor.X])
+                  console.log("undefine?" + blocks[iy][ix][enumCor.Y])
+
+                  //if is defined point exist
+                  myRow.appendChild(create_cell("background-color:green;"));
+                  stringREsult+= "{1}";
+                  continue;//  
+              }catch(exeption ){
+                //if is not defined put 0
+                stringREsult+= "{0}";
+                console.log(undefined)
+                
+                myRow.appendChild(create_cell( "background-color:blue;"));
+                continue;
+              }
+             //insertCell(ix).innerHTML="[X: " +( ix) + "Y: " +(y- iy)+"]";
+              
+            }
+          }
+      /*
       for(let y=minY;y< maxY+1; y++){
         
            row  =my_table.insertRow(0);
@@ -156,14 +190,14 @@ insertTable = function(blocks,element,number){
           for(let x=minX;  x< maxX; x++){
            /* console.log("blocks " ,blocks)
             console.log("is table defined:" ,typeof blocks[x] !== "undefined" , "x: " , x , " y " , y ,     )*/
-            for(let yi=y;y< maxY;yi++ ){
+       /*     for(let yi=y;y< maxY;yi++ ){
                 for(let xi=x;  xi< maxX; xi++ ){
-                    console.log("hodnota y " ,blocks[yi][xi][enumCor.Y], " hodnota x", blocks[yi][xi][enumCor.X])
+                    console.log("hodnota y " ,blocks[y][x][enumCor.Y], " hodnota x", blocks[y][x][enumCor.X])
 
                     if( typeof blocks[x] !== "undefined"   ){
-                        console.log("hodnota y " ,blocks[yi][xi][enumCor.Y], " hodnota x", blocks[yi][xi][enumCor.X])
-                        console.log("hledane souradnice X " , x , " y " , y)
-                    if(blocks[yi][xi][enumCor.Y] == y && blocks[yi][xi][enumCor.X] == x ){
+                        console.log("hodnota y " ,blocks[y][x][enumCor.Y], " hodnota x", blocks[y][x][enumCor.X])
+                        console.log("hledane souradnice X " , xi , " y " , yi)
+                    if(blocks[y][x][enumCor.Y] == yi && blocks[y][x][enumCor.X] == xi ){
                         row.appendChild(create_cell("background-color:green;"))
                        
                         
@@ -180,10 +214,9 @@ insertTable = function(blocks,element,number){
                }
           }
           row  =my_table.insertRow(0);
-        }
+    }*/
      
-      }
-    } 
+    
     
       function create_cell(color){
         let td = document.createElement("td");
@@ -196,6 +229,7 @@ insertTable = function(blocks,element,number){
         }
   
   };
+}
 
 
 
@@ -238,6 +272,8 @@ function create_cell(){
           }
         }
     }
+
+
 //end of dinamic table
 
 //grafic block class
@@ -1404,7 +1440,7 @@ let tilesMapG = [
 
 ]
 
-
+//adams testing
 let grid = new Grid(gridBorders, tilesMapG);
 gridEdgeDegreeEdge //existNow
 
