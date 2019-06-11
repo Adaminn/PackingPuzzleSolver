@@ -49,12 +49,15 @@ y= Number(inpY.value)-1;
 my_table.innerHTML = "";
 dinamic_table();
 }
+//addgrid funkce na pridani blocku
 
+let arrayofTrueFalsGrid = [] ;
 addGrid.onclick = function(){
     console.log("zmackl sem tlacitko")  
     let shap = new BlockG();
     
-    
+    arrayofTrueFalsGrid = shap.arrayofTrueFalse
+    console.log("true false hodnoty grid" , arrayofTrueFalsGrid)
     shap.addBlock(my_table);
     gridEdgeDegreeEdge = shap.finalDegresFormat;
     console.log("grid: ", gridEdgeDegreeEdge);
@@ -62,20 +65,27 @@ addGrid.onclick = function(){
     
 
     dinamic_table()
-    insertTable(shap.blocksF, viewOfgrid,1) //graficke zobrazeni blocku nefuncni
+   // insertTable(shap.blocksF, viewOfgrid,1) //graficke zobrazeni blocku nefuncni
     console.log("is shap undefined? " , shap.blocksF )
 
 };
 
 //button to add shape
+let arrayofTrueFalShape = [];
+
+
+//addShape pridani  tvaru
 addShapeB.onclick = () =>{
   console.log("zmackl sem tlacitko")  
   let shap = new BlockG();
   //shap.blocksF = [[1,1][1,2]]//je vpravo
   //shap._conversionToDegrees();
-  
   shap.addBlock(my_table);
-  blocks.push( shap.finalDegresFormat);
+
+  blocks.push( shap.finalDegresFormat);// pridani degrees formatu daneho blocku
+  arrayofTrueFalShape.push(shap.arrayofTrueFalse);//pridani noveho true false blocku
+  console.log("true false hodnoty shape" , arrayofTrueFalShape)
+
   console.log(blocks);
   my_table.innerHTML = "";
   console.log("vsechny ulozene tvary" , blocks)
@@ -85,158 +95,10 @@ addShapeB.onclick = () =>{
 }
 
 
-//insertTable 
-insertTable = function(blocks,element,number){
-    console.log("insert table call")
-    let y = blocks.length;
-    console.log("delka pole", y)
-    
-    
-    dinamic_tablel();
-    function dinamic_tablel(){
-      /*
-      dinamic table with interactiv collums it 
-      serves as input for our puzzle solver.
-      */
-     let my_table =Element;
-     let myRow = Element;
-     let tableTd = Element;
-     let tableTr =Element;
-    
-     tableTr = document.createElement("tr"); 
-     tableTd = document.createElement("td");
-     tableTr.appendChild(tableTd)
-     
-      newElement = document.createElement("table");
-      tableTd.appendChild(newElement);
-  
-      let first = true;
-      let firstTime =0 ;
-  
-  
-      newElement.setAttribute("id" , ""+number);//.setAttribute("id", number);
-      // newElement = document.getElementById(""+number)
-      element.appendChild(tableTr);   
-      console.log("blocks" , blocks)
-      my_table = document.getElementById(number);
-
-      maxX = 0;
-      maxY = 0;  
-      minX =blocks[0][0][enumCor.X];
-      minY =blocks[0][0][enumCor.Y];
-  
-      for (let iy = 0 ; iy< y ;iy++ ){
-        
-          if (blocks[iy][0][enumCor.X]  > maxX) {
-              maxX =  blocks[iy][0][enumCor.X];
-          }
-          if(blocks[iy][0][enumCor.Y] > maxY){
-              maxY = blocks[iy][0][enumCor.Y];
-          }
-  
-          if (minX >blocks[iy][0][enumCor.X]){
-            minX = blocks[iy][0][enumCor.X];
-          }
-          if (minX > blocks[iy][0][enumCor.Y]){
-            minY = blocks[iy][0][enumCor.Y];
-          }
-  
-        
-      }
-      console.log("minX " , minX , " maxX", maxX);
-      console.log("minY " , minY , " maxY", maxY);
-     // blocks.sort(0) 
-      let stringREsult = "";
-      
-       
-        console.log("string results")
-        //it is not working
-          for (let iy = minY-2 ; iy< maxY ;iy++ ){
-            myRow = my_table.insertRow(0);
-            console.log(stringREsult)
-            stringREsult="";
-
-            
-            for(let ix = minX-2; ix < maxX  ; ix++){
-
-              try {
-                //proc jsou sakra veschny blocku defined
-                 console.log("undefined?" + blocks[iy][ix][enumCor.X])
-                  console.log("undefine?" + blocks[iy][ix][enumCor.Y])
-
-                  //if is defined point exist
-                  myRow.appendChild(create_cell("background-color:green;"));
-                  stringREsult+= "{1}";
-                  continue;//  
-              }catch(exeption ){
-                //if is not defined put 0
-                stringREsult+= "{0}";
-                console.log(undefined)
-                
-                myRow.appendChild(create_cell( "background-color:blue;"));
-                continue;
-              }
-             //insertCell(ix).innerHTML="[X: " +( ix) + "Y: " +(y- iy)+"]";
-              
-            }
-          }
-      /*
-      for(let y=minY;y< maxY+1; y++){
-        
-           row  =my_table.insertRow(0);
-          console.log(stringREsult);
-          stringREsult = "";
-          
-          for(let x=minX;  x< maxX; x++){
-           /* console.log("blocks " ,blocks)
-            console.log("is table defined:" ,typeof blocks[x] !== "undefined" , "x: " , x , " y " , y ,     )*/
-       /*     for(let yi=y;y< maxY;yi++ ){
-                for(let xi=x;  xi< maxX; xi++ ){
-                    console.log("hodnota y " ,blocks[y][x][enumCor.Y], " hodnota x", blocks[y][x][enumCor.X])
-
-                    if( typeof blocks[x] !== "undefined"   ){
-                        console.log("hodnota y " ,blocks[y][x][enumCor.Y], " hodnota x", blocks[y][x][enumCor.X])
-                        console.log("hledane souradnice X " , xi , " y " , yi)
-                    if(blocks[y][x][enumCor.Y] == yi && blocks[y][x][enumCor.X] == xi ){
-                        row.appendChild(create_cell("background-color:green;"))
-                       
-                        
-                        stringREsult += " { 1 }"
-                    }else{
-                        row.appendChild(create_cell("background-color:red;"))
-                        stringREsult += " { 0 }"
-                    }
-
-                }else{
-                    row.appendChild(create_cell("background-color:red;"))
-                    stringREsult += " { 0 }"
-                }     
-               }
-          }
-          row  =my_table.insertRow(0);
-    }*/
-     
-    
-    
-      function create_cell(color){
-        let td = document.createElement("td");
-        
-        td.innerHTML = number;
-        td.setAttribute("style",color);
-        
-          
-          return td;
-        }
-  
-  };
-}
 
 
 
 
-
-
-//creating dinamic table
 
 function create_cell(){
     let td = document.createElement("td");
@@ -271,7 +133,10 @@ function create_cell(){
             
           }
         }
-    }
+      }
+
+
+
 
 
 //end of dinamic table
@@ -281,6 +146,7 @@ var BlockG =  function(){
     const blockSize= 25;//px?
     this.numberOfSides =0;
     this.blocksF = [];
+    this.arrayofTrueFalse =[];
     this.degresFormat= [];
     this.finalDegresFormat = [];
     
@@ -297,23 +163,39 @@ var BlockG =  function(){
 
     this._getBlocksFromTable = (my_table) =>{
         //init
+        let finalArray = []
+        helpArray = []
         let rowL = my_table.rows.length;
         for(let rowI=0; rowI < rowL ; rowI++){
-          collumsL = my_table.rows[rowI].cells.length
+          
+           
+           collumsL = my_table.rows[rowI].cells.length
+          
           for (let collumsI=0; collumsI < collumsL; collumsI++ ){
           console.log("x:", collumsI, " y:", rowI ,my_table.rows[rowI].cells[collumsI].style.getPropertyValue("background-color"));
           if (my_table.rows[rowI].cells[collumsI].style.getPropertyValue("background-color")== "none" ||my_table.rows[rowI].cells[collumsI].style.getPropertyValue("background-color")==""){
-          
+           
+            helpArray.push(false)
+
+
             continue;
           }
           //collumsI = Xpos , rowI = Ypos
             this.blocksF.push([     [(collumsI.valueOf()),(rowI.valueOf())],    [((collumsI+1).valueOf()),(rowI.valueOf())],
                                 [ ((collumsI+1).valueOf()) , ( (rowI+1).valueOf()) ],[( (collumsI).valueOf() ) , ((rowI+1).valueOf())] ]);
-            
+          
+            helpArray.push(true)     
+          
             continue;
 
           }
+          finalArray.push(helpArray)
+           helpArray = []
+          
+        
         }
+        finalArray.push(helpArray)
+        this.arrayofTrueFalse.push(finalArray)
         console.log("vypis hodnot")
         console.log("ctvercova sit: ",this.blocksF)  
         return;
@@ -449,9 +331,7 @@ var BlockG =  function(){
             //probadly something wrong
             numberOfNeighborBlocks+=1;
 
-          }
-
-          
+          }          
           console.log(" number: " + numberOfNeighborBlocks)
 
           this.degresFormat.push(numberOfNeighborBlocks);
@@ -460,24 +340,9 @@ var BlockG =  function(){
           directionNub = this.changeOfDirection(directionNub-1);
           console.log("actual direction is: " + directionNub);
           numberOfNeighborBlocks = 0;
-        //  firstNeighbor = false;
         }
-
-        console.log(" direction X: " + newBlockX);
-        console.log(" direction Y: " + newBlockY);
-        console.log("direction numb: "+ directionNub)
-        console.log("original block X:" + originalBlockX + " Y: " +  originalBlockY);
         newBlockX = newBlockX + clockWiseDirection[directionNub][enumCor.X];
         newBlockY = newBlockY + clockWiseDirection[directionNub][enumCor.Y];
-        console.log("direction for next run X: " + newBlockX);
-        console.log("direction for next run Y: " + newBlockY);
-        
-        console.log("directions: " + this.degresFormat);
-       //infinite loop
-      /*  if (terminator == 100) {
-          console.log("terminator pif paf")
-          break;
-        }*/
       }
       console.log("push hodnoty: " + numberOfNeighborBlocks );
       if(numberOfNeighborBlocks == 0){
