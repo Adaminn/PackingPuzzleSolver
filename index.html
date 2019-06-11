@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+
+<html lang="cs">
+	<<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="css/maincss.css">
+    <title>prostorova kalkulacka</title>
+   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     
+</head>
+
+	<body>
+		<div class="paper">
+			<div class="nadpis">
+				<h1>PROSTOROVÁ KALKUKAČKA</h1>
+				<hr>
+			</div>
+			<div class="prostredek">
+				 <div="obsah">
+                    <div class="inputnahore">     
+                        <input type="text" id= inpX placeholder="x" >
+                        <input type="text " id = inpY placeholder="y">
+                        <input type=button id="reCalcButton"   value="new input table!">
+
+                    </div> 
+                    <div class="tabulka">   
+                        <p>
+                            <!-- nemazat tabulku a nemenit taky nemeň id -->
+                            <table class="tableInput" id="tableInput">
+                            
+                            </table>
+                            <input type="button" id="addShape" value="vložit tvar">
+                            <input type="button" id="addGrid" value="vložit grid">
+                            <input type=button id="claculateResult"   value="calculate">
+                        </p>
+                    </div>
+
+                   
+                    
+                    <div class="tabulka">
+                        <p>
+                            <table class="viewOfblocks" id="viewOfblocks">
+                                <tr>
+                                    <td>
+                                        zobrazeni blocku
+                                    </td>
+                                </tr>
+                            </table>
+                        </p>
+                    </div>
+                    <div class="tabulka">
+                        <p>
+                            <table class="viewOfgrid" id="viewOfgrid">
+                                <tr>
+                                    <td>
+                                        zobrazeni gridu
+                                    </td>
+                                </tr>
+                            </table>
+                        </p>   
+                    </div>
+                </div>
+			</div>
+        </div>
+        
+        <script src="algorithm.js"></script>
+	</body>
+</html>

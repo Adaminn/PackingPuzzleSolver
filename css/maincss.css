@@ -1,0 +1,56 @@
+tabulka funguje dobre ale je treba ji predelat aby byla vzdy hezka
+.tableInput ,table ,td {
+    border: 1px solid #000000;
+    border-collapse: collapse;
+    
+  }
+  table > td {
+      height: 128px;
+
+  }
+ .tableInput , table{
+     width: 250px;
+     height: 250px;
+ }
+
+  body{
+      background-color: #7aff85;
+      font-family: 'Source Sans Pro', sans-serif;
+      
+  }
+  .tableInput >table, table td {
+    padding:0;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+
+ .viewOfgrid> td{
+    height : 128px;
+    width : 100%;
+}
+
+.viewOfblocks > td {
+    height : 128px;
+    width : 100%;
+
+}
+
+.paper {
+  width: 850px;
+  margin: 100px auto;
+  background-color: #fcfcff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+}
+
+h1{
+  text-align: center;
+  padding:  50px;
+}
+
+.inputnahore {
+  margin-left: 230px;
+}
+.tabulka {
+ margin-left: 310px; 
+}
